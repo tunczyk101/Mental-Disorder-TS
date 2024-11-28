@@ -211,3 +211,24 @@ def calculate_metrics_statistics(metrics: List[Dict[str, float]]) -> Dict[str, T
         results[metric] = mean, stddev
 
     return results
+
+def calculate_metrics_from_df(y_true: pd.Series, y_pred: pd.Series) -> Dict[str, float]:
+    """
+    Calculates metrics given true and predicted labels.
+
+    :param y_true: True labels (actual class)
+    :param y_pred: Predicted labels (final predicted class)
+    :returns: dictionary of metrics
+    """
+    metrics = {
+        "accuracy": accuracy_score(y_true, y_pred),
+        "balanced_accuracy": balanced_accuracy_score(y_true, y_pred),
+        "f1": f1_score(y_true, y_pred, zero_division=1),
+        "precision": precision_score(y_true, y_pred, zero_division=1),
+        "recall": recall_score(y_true, y_pred, pos_label=1, zero_division=1),
+        "specificity": recall_score(y_true, y_pred, pos_label=0, zero_division=1),
+        "ROC_AUC": roc_auc_score(y_true, y_pred) if len(y_true.unique()) > 1 else float('nan'),
+        "MCC": mcc(y_true, y_pred),
+    }
+
+    return metrics
