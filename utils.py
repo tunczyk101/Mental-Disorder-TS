@@ -36,6 +36,28 @@ class Dataset:
         ]
 
 
+class DatasetWin:
+    def __init__(self, dirpath: str, condition_dir_name: str = "condition", sep: str = ','):
+        condition_dirpath = os.path.join(dirpath, condition_dir_name)
+        control_dirpath = os.path.join(dirpath, "control")
+
+        self.condition: List[List[pd.DataFrame]] = [
+            [
+                pd.read_csv(os.path.join(condition_dirpath, folder, file), sep=sep)
+                for file in os.listdir(os.path.join(condition_dirpath, folder))
+            ]
+            for folder in os.listdir(condition_dirpath)
+        ]
+
+        self.control: List[List[pd.DataFrame]] = [
+            [
+                pd.read_csv(os.path.join(control_dirpath, folder, file), sep=sep)
+                for file in os.listdir(os.path.join(control_dirpath, folder))
+            ]
+            for folder in os.listdir(control_dirpath)
+        ]
+
+
 def variance_thresholding(
     X_train: ArrayLike,
     X_test: ArrayLike,
@@ -189,3 +211,24 @@ def calculate_metrics_statistics(metrics: List[Dict[str, float]]) -> Dict[str, T
         results[metric] = mean, stddev
 
     return results
+
+def calculate_metrics_from_df(y_true: pd.Series, y_pred: pd.Series) -> Dict[str, float]:
+    """
+    Calculates metrics given true and predicted labels.
+
+    :param y_true: True labels (actual class)
+    :param y_pred: Predicted labels (final predicted class)
+    :returns: dictionary of metrics
+    """
+    metrics = {
+        "accuracy": accuracy_score(y_true, y_pred),
+        "balanced_accuracy": balanced_accuracy_score(y_true, y_pred),
+        "f1": f1_score(y_true, y_pred, zero_division=1),
+        "precision": precision_score(y_true, y_pred, zero_division=1),
+        "recall": recall_score(y_true, y_pred, pos_label=1, zero_division=1),
+        "specificity": recall_score(y_true, y_pred, pos_label=0, zero_division=1),
+        "ROC_AUC": roc_auc_score(y_true, y_pred) if len(y_true.unique()) > 1 else float('nan'),
+        "MCC": mcc(y_true, y_pred),
+    }
+
+    return metrics
