@@ -36,6 +36,28 @@ class Dataset:
         ]
 
 
+class DatasetWin:
+    def __init__(self, dirpath: str, condition_dir_name: str = "condition", sep: str = ','):
+        condition_dirpath = os.path.join(dirpath, condition_dir_name)
+        control_dirpath = os.path.join(dirpath, "control")
+
+        self.condition: List[List[pd.DataFrame]] = [
+            [
+                pd.read_csv(os.path.join(condition_dirpath, folder, file), sep=sep)
+                for file in os.listdir(os.path.join(condition_dirpath, folder))
+            ]
+            for folder in os.listdir(condition_dirpath)
+        ]
+
+        self.control: List[List[pd.DataFrame]] = [
+            [
+                pd.read_csv(os.path.join(control_dirpath, folder, file), sep=sep)
+                for file in os.listdir(os.path.join(control_dirpath, folder))
+            ]
+            for folder in os.listdir(control_dirpath)
+        ]
+
+
 def variance_thresholding(
     X_train: ArrayLike,
     X_test: ArrayLike,
