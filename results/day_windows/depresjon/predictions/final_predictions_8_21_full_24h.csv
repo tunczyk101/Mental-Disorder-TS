@@ -25,7 +25,7 @@ patient_id,classifier,final_predicted_class,actual_class
 6,SVM,1,1
 7,GBM,1,1
 7,LR,1,1
-7,RF,1,1
+7,RF,0,1
 7,SVM,1,1
 8,GBM,0,1
 8,LR,0,1
@@ -65,7 +65,7 @@ patient_id,classifier,final_predicted_class,actual_class
 16,SVM,1,1
 17,GBM,0,1
 17,LR,1,1
-17,RF,0,1
+17,RF,1,1
 17,SVM,1,1
 18,GBM,0,1
 18,LR,0,1
@@ -197,7 +197,7 @@ patient_id,classifier,final_predicted_class,actual_class
 49,SVM,1,0
 50,GBM,0,0
 50,LR,0,0
-50,RF,0,0
+50,RF,1,0
 50,SVM,1,0
 51,GBM,1,0
 51,LR,1,0
