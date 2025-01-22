@@ -15,6 +15,7 @@ from sklearn.metrics import (
     confusion_matrix
 )
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
+import lightgbm as lgb
 
 
 ArrayLike = TypeVar("ArrayLike", bound=Union[np.ndarray, pd.DataFrame])
@@ -178,6 +179,8 @@ def calculate_metrics(clf: ClassifierMixin, X_test: np.ndarray, y_test: np.ndarr
     :returns: dictionary: metric name -> metric value
     """
     y_pred = clf.predict(X_test)
+    if isinstance(clf, lgb.Booster):
+        y_pred = (y_pred > 0.5).astype(int)
 
     metrics = {
         "accuracy": accuracy_score(y_test, y_pred),
