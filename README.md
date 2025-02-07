@@ -1,4 +1,4 @@
-# Mental-Disorder-TS: Klasyfikacja szeregów czasowych
+# Mental-Disorder-TS: Time series classification
 
 The project aimed to compare time series classification methods for diagnosing neurological and mental disorders based on patients' daily activity data. It was based on the article “Comparison of Manual and Automated Feature Engineering for Daily Activity Classification in Mental Disorder Diagnosis” by J. Adamczyk and F. Malawski.
 
